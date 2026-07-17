@@ -1,0 +1,28 @@
+## .NET
+bin/
+obj/
+artifacts/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+## Visual Studio
+.vs/
+
+## VS Code
+.vscode/
+
+## Rider
+.idea/
+*.sln.iml
+
+## Local settings and secrets
+appsettings.Local.json
+*.db
+*.mdf
+*.ldf
+
+## OS
+.DS_Store
+Thumbs.db

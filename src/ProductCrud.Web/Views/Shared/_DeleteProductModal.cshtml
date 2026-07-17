@@ -1,0 +1,25 @@
+<div class="modal fade" id="deleteProductModal" tabindex="-1"
+     aria-labelledby="deleteProductModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title h5 text-danger" id="deleteProductModalLabel">Delete product</h2>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>This action permanently deletes the product record. Continue?</p>
+                <p class="mb-0">
+                    <strong id="deleteProductName"></strong>
+                    <span class="text-muted">— $<span id="deleteProductPrice"></span></span>
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form asp-controller="Products" asp-action="Delete" method="post" class="d-inline">
+                    <input type="hidden" name="id" id="deleteProductId" value="" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

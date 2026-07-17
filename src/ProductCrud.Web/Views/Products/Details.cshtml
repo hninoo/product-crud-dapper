@@ -1,0 +1,38 @@
+@model Product
+@{
+    ViewData["Title"] = "Product Details";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Product details</h1>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.ProductId" class="btn btn-primary">Edit</a>
+        <button type="button" class="btn btn-outline-danger"
+                data-bs-toggle="modal" data-bs-target="#deleteProductModal"
+                data-product-id="@Model.ProductId"
+                data-product-name="@Model.Name"
+                data-product-price="@Model.Price.ToString("N2")">Delete</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Back</a>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <dl class="row mb-0">
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Name)</dt>
+            <dd class="col-sm-9">@Model.Name</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Description)</dt>
+            <dd class="col-sm-9">@(string.IsNullOrWhiteSpace(Model.Description) ? "—" : Model.Description)</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.Price)</dt>
+            <dd class="col-sm-9">$@Model.Price.ToString("N2")</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.StockQuantity)</dt>
+            <dd class="col-sm-9">@Model.StockQuantity</dd>
+            <dt class="col-sm-3">Status</dt>
+            <dd class="col-sm-9">@(Model.IsActive ? "Active" : "Inactive")</dd>
+            <dt class="col-sm-3">@Html.DisplayNameFor(m => m.CreatedAt)</dt>
+            <dd class="col-sm-9">@Model.CreatedAt.ToString("dd MMM yyyy HH:mm") UTC</dd>
+        </dl>
+    </div>
+</div>
+
+<partial name="_DeleteProductModal" />

@@ -1,0 +1,179 @@
+@model ProductListViewModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h1 class="h3 mb-1">Products</h1>
+        <p class="text-muted mb-0">Manage products and prices using ASP.NET Core MVC and Dapper.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-primary">Add product</a>
+</div>
+
+<form method="get" class="row g-2 mb-3 align-items-center">
+    <div class="col-sm-6 col-md-4">
+        <div class="input-group">
+            <span class="input-group-text" aria-hidden="true">
+                <svg width="15" height="15" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="7" cy="7" r="5" stroke="currentColor" stroke-width="1.6"/>
+                    <path d="m11 11 3.2 3.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <input type="search" name="searchTerm" value="@Model.SearchTerm" class="form-control"
+                   placeholder="Search name or description" aria-label="Search products" />
+        </div>
+    </div>
+    <div class="col-auto">
+        <button class="btn btn-outline-primary" type="submit">Search</button>
+        <a asp-action="Index" class="btn btn-outline-secondary">Clear</a>
+    </div>
+    <div class="col-auto ms-auto d-flex align-items-center gap-2">
+        <label for="pageSize" class="col-form-label text-nowrap text-muted">Per page</label>
+        <select id="pageSize" name="pageSize" class="form-select form-select-sm">
+            @foreach (var size in ProductListViewModel.AllowedPageSizes)
+            {
+                <option value="@size" selected="@(size == Model.PageSize)">@size</option>
+            }
+        </select>
+    </div>
+</form>
+
+<div class="card shadow-sm">
+    <div class="table-responsive">
+        <table class="table table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th class="text-end">Price</th>
+                    <th class="text-end">Stock</th>
+                    <th>Status</th>
+                    <th class="text-end">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            @if (Model.Products.Count == 0)
+            {
+                <tr>
+                    <td colspan="6" class="text-center text-muted py-4">
+                        @if (string.IsNullOrWhiteSpace(Model.SearchTerm))
+                        {
+                            <span>No products yet.</span>
+                            <a asp-action="Create">Add the first product</a>
+                        }
+                        else
+                        {
+                            <span>No products match &ldquo;@Model.SearchTerm&rdquo;.</span>
+                            <a asp-action="Index">Clear the search</a>
+                        }
+                    </td>
+                </tr>
+            }
+            else
+            {
+                @foreach (var product in Model.Products)
+                {
+                    <tr>
+                        <td class="fw-semibold">
+                            <span class="d-inline-flex align-items-center gap-2">
+                                <span class="product-avatar" aria-hidden="true">@char.ToUpper(product.Name[0])</span>
+                                @product.Name
+                            </span>
+                        </td>
+                        <td class="text-muted">@product.Description</td>
+                        <td class="text-end">$@product.Price.ToString("N2")</td>
+                        <td class="text-end @(product.StockQuantity == 0 ? "text-danger fw-semibold" : "")">@product.StockQuantity</td>
+                        <td>
+                            <div class="form-check form-switch mb-0">
+                                <input class="form-check-input status-toggle mt-0" type="checkbox" role="switch"
+                                       id="status-@product.ProductId" data-id="@product.ProductId"
+                                       checked="@product.IsActive"
+                                       aria-label="Toggle active status for @product.Name" />
+                            </div>
+                        </td>
+                        <td class="text-end text-nowrap">
+                            <a asp-action="Details" asp-route-id="@product.ProductId" class="btn btn-sm btn-outline-info">View</a>
+                            <a asp-action="Edit" asp-route-id="@product.ProductId" class="btn btn-sm btn-outline-primary">Edit</a>
+                            <button type="button" class="btn btn-sm btn-outline-danger"
+                                    data-bs-toggle="modal" data-bs-target="#deleteProductModal"
+                                    data-product-id="@product.ProductId"
+                                    data-product-name="@product.Name"
+                                    data-product-price="@product.Price.ToString("N2")">Delete</button>
+                        </td>
+                    </tr>
+                }
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer d-flex flex-wrap justify-content-between align-items-center gap-2">
+        <span class="text-muted small">
+            Showing @Model.FirstItem&ndash;@Model.LastItem of @Model.TotalCount products
+        </span>
+        <nav aria-label="Product list pages">
+            <ul class="pagination pagination-sm mb-0">
+                <li class="page-item @(Model.HasPrevious ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-searchTerm="@Model.SearchTerm"
+                       asp-route-pageSize="@Model.PageSize"
+                       asp-route-page="@(Model.Page - 1)"
+                       tabindex="-1" aria-disabled="@(!Model.HasPrevious)">Previous</a>
+                </li>
+                @for (var p = 1; p <= Model.TotalPages; p++)
+                {
+                    <li class="page-item @(p == Model.Page ? "active" : "")">
+                        <a class="page-link" asp-action="Index"
+                           asp-route-searchTerm="@Model.SearchTerm"
+                           asp-route-pageSize="@Model.PageSize"
+                           asp-route-page="@p"
+                           aria-current="@(p == Model.Page ? "page" : null)">@p</a>
+                    </li>
+                }
+                <li class="page-item @(Model.HasNext ? "" : "disabled")">
+                    <a class="page-link" asp-action="Index"
+                       asp-route-searchTerm="@Model.SearchTerm"
+                       asp-route-pageSize="@Model.PageSize"
+                       asp-route-page="@(Model.Page + 1)"
+                       tabindex="-1" aria-disabled="@(!Model.HasNext)">Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+<partial name="_DeleteProductModal" />
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script>
+        $(function () {
+            // Changing the page size re-submits the search form (resets to page 1).
+            $('#pageSize').on('change', function () {
+                $(this).closest('form').trigger('submit');
+            });
+
+            // Inline status switch: toggle IsActive via AJAX without a page reload.
+            $('.status-toggle').on('change', function () {
+                var $input = $(this);
+                var isActive = $input.is(':checked');
+                var token = $('input[name="__RequestVerificationToken"]').first().val();
+
+                $input.prop('disabled', true);
+
+                $.ajax({
+                    url: '@Url.Action("ToggleActive", "Products")',
+                    type: 'POST',
+                    headers: { 'RequestVerificationToken': token },
+                    data: { id: $input.data('id'), isActive: isActive }
+                }).fail(function () {
+                    // Revert the switch if the server rejected the change.
+                    $input.prop('checked', !isActive);
+                    alert('Could not update status. Please try again.');
+                }).always(function () {
+                    $input.prop('disabled', false);
+                });
+            });
+        });
+    </script>
+}

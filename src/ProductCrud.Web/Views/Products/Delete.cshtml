@@ -1,0 +1,22 @@
+@model Product
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<h1 class="h3 text-danger mb-3">Delete product</h1>
+<div class="alert alert-warning">
+    This action permanently deletes the product record. Continue?
+</div>
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h2 class="h5">@Model.Name</h2>
+        <p class="mb-1"><strong>Price:</strong> $@Model.Price.ToString("N2")</p>
+        <p><strong>Stock:</strong> @Model.StockQuantity</p>
+
+        <form asp-action="Delete" method="post">
+            <input type="hidden" name="id" value="@Model.ProductId" />
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-action="Index" class="btn btn-outline-secondary">Cancel</a>
+        </form>
+    </div>
+</div>

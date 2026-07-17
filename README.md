@@ -30,9 +30,13 @@ practical test. It demonstrates complete CRUD operations using:
 
 ## Screenshots
 
-| Product list | Add product | Delete confirmation |
+| Product list (light) | Product list (dark) | Product details |
 |---|---|---|
-| ![Product list](docs/screenshots/index.png) | ![Add product](docs/screenshots/create.png) | ![Delete confirmation](docs/screenshots/delete.png) |
+| ![Product list light](docs/screenshots/Index-Light.png) | ![Product list dark](docs/screenshots/Index-Dark.png) | ![Product details](docs/screenshots/Detail.png) |
+
+| Add product | Edit product | Delete confirmation |
+|---|---|---|
+| ![Add product](docs/screenshots/Create.png) | ![Edit product](docs/screenshots/Edit.png) | ![Delete confirmation](docs/screenshots/Delete.png) |
 
 ## Project structure
 

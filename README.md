@@ -1,6 +1,6 @@
 # Product CRUD — ASP.NET Core MVC + Dapper
 
-A simple product management web application built for the Qutiq Myanmar Co., Ltd.
+A simple product management web application built for the Qutiq Myanmar Co., Ltd.(QHRM).
 practical test. It demonstrates complete CRUD operations using:
 
 - ASP.NET Core MVC (.NET 10 LTS)

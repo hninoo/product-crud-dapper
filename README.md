@@ -48,6 +48,8 @@ ProductCrudDapper/
 │       ├── Repositories/
 │       ├── Views/
 │       └── wwwroot/
+├── tests/
+│   └── ProductCrud.Web.Tests/
 ├── .gitignore
 ├── README.md
 └── ProductCrudDapper.sln
@@ -149,6 +151,34 @@ setup above); the app refuses to start without it.
 
 Open the localhost URL printed in the terminal. The homepage shows the product list.
 
+## Run tests
+
+The solution includes xUnit tests for controller behavior, model validation,
+MVC feature flows, invalid numeric input, and HTML/JavaScript payload encoding.
+The tests replace the SQL Server repository with an in-memory repository, so no
+database is required.
+
+With the .NET SDK installed:
+
+```bash
+dotnet test ProductCrudDapper.sln
+```
+
+With Docker only:
+
+```bash
+docker run --rm \
+  -e ConnectionStrings__DefaultConnection=Server=localhost \
+  -v "$PWD:/work" \
+  -w /work \
+  mcr.microsoft.com/dotnet/sdk:10.0 \
+  dotnet test ProductCrudDapper.sln
+```
+
+The dummy connection string is required because the web app validates that a
+connection string exists at startup; the tests still use an in-memory product
+repository and do not connect to SQL Server.
+
 ## How it works
 
 1. `ProductsController` receives the browser request.
@@ -171,4 +201,3 @@ full-text index exists and falls back to a portable `LIKE` search when it does
 not — the app works on any SQL Server installation either way. The Docker
 image is built from `database/sqlserver-fts.Dockerfile`, which adds the FTS
 package the stock Linux image lacks.
-

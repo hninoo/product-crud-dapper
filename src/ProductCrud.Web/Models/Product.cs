@@ -14,7 +14,7 @@ public sealed class Product
     [StringLength(500)]
     public string? Description { get; set; }
 
-    [Range(0, 9999999999999999.99)]
+    [Range(typeof(decimal), "0", "999999999999999.99")]
     [DataType(DataType.Currency)]
     public decimal Price { get; set; }
 

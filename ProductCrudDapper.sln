@@ -4,6 +4,8 @@ VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCrud.Web", "src\ProductCrud.Web\ProductCrud.Web.csproj", "{8B3D1F2A-4C57-4E9B-9D31-B7F02E5C6A14}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProductCrud.Web.Tests", "tests\ProductCrud.Web.Tests\ProductCrud.Web.Tests.csproj", "{FB0C0102-6C06-4637-BA0F-AF17529E7446}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -14,5 +16,9 @@ Global
 		{8B3D1F2A-4C57-4E9B-9D31-B7F02E5C6A14}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8B3D1F2A-4C57-4E9B-9D31-B7F02E5C6A14}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8B3D1F2A-4C57-4E9B-9D31-B7F02E5C6A14}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FB0C0102-6C06-4637-BA0F-AF17529E7446}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FB0C0102-6C06-4637-BA0F-AF17529E7446}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FB0C0102-6C06-4637-BA0F-AF17529E7446}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FB0C0102-6C06-4637-BA0F-AF17529E7446}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
